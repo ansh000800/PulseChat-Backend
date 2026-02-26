@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import dns from "dns";
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
@@ -26,13 +29,13 @@ app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
 
 app.get("/", (req, res) => {
-  res.send("API is running...");
+  res.send("PulseChat API is running...");
 });
 
 // ---- Socket.IO ----
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST"],
   },
 });

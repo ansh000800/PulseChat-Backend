@@ -20,7 +20,14 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors());
+app.use(
+  cors(
+    cors({
+      origin: "https://pulsechat-hyo6.onrender.com",
+      credentials: true,
+    }),
+  ),
+);
 app.use(express.json());
 // server.js
 app.use("/uploads", express.static("uploads"));

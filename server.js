@@ -21,12 +21,11 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(
-  cors(
-    cors({
-      origin: "https://pulsechat-hyo6.onrender.com",
-      credentials: true,
-    }),
-  ),
+  cors({
+    origin: "https://pulsechat-hyo6.onrender.com",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  }),
 );
 app.use(express.json());
 // server.js

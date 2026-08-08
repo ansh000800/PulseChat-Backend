@@ -13,7 +13,17 @@ const protect = async (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      req.user = await User.findById(decoded.id).select("-password");
+      const user = await User.findById(decoded.id).select("-password");
+
+      if (!user) {
+        return res.status(401).json({ message: "Not authorized, user not found" });
+      }
+
+      if (user.status === "deactive") {
+        return res.status(401).json({ message: "Not authorized, account is deactivated" });
+      }
+
+      req.user = user;
 
       next();
     } catch (error) {
@@ -26,4 +36,12 @@ const protect = async (req, res, next) => {
   }
 };
 
-export default protect;
+const adminProtect = (req, res, next) => {
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    res.status(401).json({ message: "Not authorized as an admin" });
+  }
+};
+
+export { protect, adminProtect };

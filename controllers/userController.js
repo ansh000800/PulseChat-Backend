@@ -6,9 +6,9 @@ import cloudinary from "../config/cloudinary.js";
 // ==============================
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find({ _id: { $ne: req.user._id } }).select(
-      "-password",
-    );
+    const users = await User.find({ 
+      _id: { $ne: req.user._id }
+    }).select("-password");
     res.json(users);
   } catch (error) {
     console.error("Get Users Error:", error);

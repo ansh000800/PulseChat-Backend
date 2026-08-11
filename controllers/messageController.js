@@ -91,6 +91,24 @@ export const markAsSeen = async (req, res) => {
   }
 };
 
+export const markBulkAsSeen = async (req, res) => {
+  try {
+    const { messageIds } = req.body;
+    if (!messageIds || messageIds.length === 0) {
+      return res.status(400).json({ message: "No message IDs provided" });
+    }
+
+    await Message.updateMany(
+      { _id: { $in: messageIds }, receiver: req.user._id },
+      { $set: { isSeen: true } }
+    );
+
+    res.status(200).json({ message: "Messages marked as seen" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const editMessage = async (req, res) => {
   try {
     const { text } = req.body;

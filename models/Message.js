@@ -17,7 +17,8 @@ const messageSchema = mongoose.Schema(
   { timestamps: true },
 );
 
-messageSchema.index({ sender: 1, receiver: 1 });
+messageSchema.index({ sender: 1, receiver: 1, createdAt: -1 });
+messageSchema.index({ receiver: 1, sender: 1, createdAt: -1 });
 messageSchema.index({ receiver: 1, isSeen: 1 });
 messageSchema.index({ createdAt: -1 });
 

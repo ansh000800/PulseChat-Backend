@@ -1,6 +1,6 @@
 import express from "express";
 import { protect } from "../middleware/authMiddleware.js";
-import { addMessage, getMessages, markAsSeen, editMessage, deleteMessage, getUnreadCounts } from "../controllers/messageController.js";
+import { addMessage, getMessages, markAsSeen, markBulkAsSeen, editMessage, deleteMessage, getUnreadCounts } from "../controllers/messageController.js";
 
 import multer from "multer";
 import path from "path";
@@ -41,6 +41,7 @@ router.post("/image", protect, upload.single("image"), addMessage);
 router.get("/:userId", protect, getMessages);
 
 // Advanced features
+router.put("/seen-bulk", protect, markBulkAsSeen);
 router.put("/:messageId/seen", protect, markAsSeen);
 router.put("/:messageId/edit", protect, editMessage);
 router.delete("/:messageId", protect, deleteMessage);
